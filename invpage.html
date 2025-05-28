@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Inventory Page - ChoreUs</title>
+    <style>
+       body {
+  font-family: Arial;
+  height: 100vh;
+  background-color: #f4f4f4;
+  background: #eaf6fc;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  color: #333;
+  overflow: hidden;
+  
+
+}
+
+.container {
+  width: 1300px;
+  background: #ffffff;
+ 
+  padding: 40px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  margin-left: 240px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background-color: rgba(0, 255, 255, 0.3);
+
+
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #0056b3;
+  padding: 20px 0;
+  height: 100vh;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: white;
+}
+
+.logo {
+            font-size: 50px;
+           
+            color: white;
+            margin-bottom: 30px; /* Adjusted to match invpage.html */
+            transition: transform 0.3s ease;
+            text-align: center;
+            font-family: Pacifico;
+        }
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        .sidebar a, .sidebar p {
+            display: block;
+            margin-bottom: 30px;
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+          
+        }
+        .sidebar .inventorytext {
+            font-weight: bold;
+        }
+    /* Overall page styling */
+    
+    h2 {
+      text-align: center;
+      color: #007BFF;
+      margin-bottom: 30px;
+      font-size: 36px;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .controls input,
+    .controls select,
+    .controls button {
+      padding: 15px 20px;
+      font-size: 18px;
+      border: 2px solid #007BFF;
+      border-radius: 8px;
+      outline: none;
+    }
+    .controls button {
+      background: #007BFF;
+      color: #fff;
+      cursor: pointer;
+    }
+    .hidden { display: none; }
+    .category {
+      margin-bottom: 30px;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #007BFF;
+      background: linear-gradient(135deg, #e0f0ff, #ffffff);
+    }
+    .category ul { list-style: none; padding: 0; }
+    .inventory-item { display: flex; justify-content: space-between; padding: 12px; }
+    .inventory-item button { background: #007BFF; color: white; padding: 8px 15px; border-radius: 5px; }
+  </style>
+    </style>
+</head>
+<body>
+    
+    <div class="sidebar">
+        <div class="logo">ChoreUs</div>
+        <a href="index.html" class="dashtext">Dashboard</a>
+        <a href="activitiespage.html" class="activitytext">Activity</a>
+        <a href="invpage.html" class="inventorytext">Inventory</a>
+        <a href="mealpage.html" class="mealstext">Expense Tracker</a>
+        <a href="propage.html" class="profilestext">About Us</a>
+    </div>
+    <div class="container">
+        <h2>Inventory Tracker</h2>
+        <div class="controls">
+          <button class="add-item-btn" onclick="toggleItemInput()">➕ Add Item</button>
+          <input type="text" id="itemInput" class="hidden" placeholder="Enter item name">
+          <input type="number" id="itemQuantity" class="hidden" placeholder="Qty">
+          <select id="categorySelect" class="hidden">
+            <option value="Beverages">Beverages</option>
+            <option value="Lentils">Lentils</option>
+            <option value="Pulses">Pulses</option>
+            <option value="Others">Others</option>
+          </select>
+          <button id="submitItem" class="hidden" onclick="addItem()">Submit</button>
+        </div>
+        <div id="inventoryList"></div>
+      </div>
+        
+        <script>
+            let inventoryData = JSON.parse(localStorage.getItem('inventory')) || {};
+          
+            function toggleItemInput() {
+              document.querySelectorAll('.hidden').forEach(el => el.classList.toggle('hidden'));
+            }
+          
+            function addItem() {
+              const itemName = document.getElementById('itemInput').value.trim();
+              const itemQuantity = parseInt(document.getElementById('itemQuantity').value);
+              const category = document.getElementById('categorySelect').value;
+          
+              if (!itemName || isNaN(itemQuantity) || itemQuantity <= 0) return;
+          
+              if (!inventoryData[category]) inventoryData[category] = [];
+          
+              const existingItem = inventoryData[category].find(item => item.name === itemName);
+          
+              if (existingItem) {
+                existingItem.quantity += itemQuantity;
+              } else {
+                inventoryData[category].push({ name: itemName, quantity: itemQuantity });
+              }
+          
+              saveAndRender();
+              document.getElementById('itemInput').value = '';
+              document.getElementById('itemQuantity').value = '';
+            }
+          
+            function reduceItem(category, itemName) {
+              const item = inventoryData[category].find(item => item.name === itemName);
+          
+              if (item.quantity > 1) {
+                item.quantity--;
+              } else {
+                inventoryData[category] = inventoryData[category].filter(item => item.name !== itemName);
+              }
+          
+              if (inventoryData[category].length === 0) delete inventoryData[category];
+              saveAndRender();
+            }
+          
+            function saveAndRender() {
+              localStorage.setItem('inventory', JSON.stringify(inventoryData));
+              renderInventory();
+            }
+          
+            function renderInventory() {
+              const inventoryList = document.getElementById('inventoryList');
+              inventoryList.innerHTML = '';
+          
+              Object.keys(inventoryData).forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                categoryDiv.innerHTML = `<h3>${category}</h3><ul></ul>`;
+          
+                inventoryData[category].forEach(item => {
+                  const listItem = document.createElement('li');
+                  listItem.className = 'inventory-item';
+                  listItem.innerHTML = `<span>${item.name} (Qty: <span>${item.quantity}</span>)</span>
+                    <button onclick="reduceItem('${category}', '${item.name}')">Reduce</button>`;
+                  categoryDiv.querySelector('ul').appendChild(listItem);
+                });
+          
+                inventoryList.appendChild(categoryDiv);
+              });
+            }
+          
+            renderInventory();
+          </script>
+        </body>
+</html>
+
+
+
+

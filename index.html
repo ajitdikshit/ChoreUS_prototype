@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChoreUs Menu</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 255, 255, 0.3);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .sidebar {
+            width: 240px;
+            background-color: #0056b3;
+            padding-top: 20px; /* Adjusted to match invpage.html */
+            height: 100vh;
+            overflow-y: auto;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+     .logo {
+            font-size: 50px;
+           
+            color: white;
+            margin-bottom: 30px; /* Adjusted to match invpage.html */
+            transition: transform 0.3s ease;
+            text-align: center;
+            font-family: Pacifico;
+        }
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        .sidebar a, .sidebar p {
+            display: block;
+            margin-bottom: 30px;
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+        }
+        .sidebar .dashtext {
+            font-weight: bold;
+        }
+        .sidebar .activitytext {
+            font-weight: normal;
+        }
+        .sidebar .inventorytext {
+            font-weight: normal;
+        }
+    .dashboard-container {
+      background-color:0056b3  ;
+      padding: 200px;
+      border-radius: 20px;
+      max-width: 600px;
+      margin-left: 280px;
+    }
+
+    h1 {
+      color: #0056b3;
+      font-size: 55px;
+    }
+
+    p {
+      font-size: 20px;
+      color: #333;
+    }
+
+    .contact-section {
+      margin-top: 40px;
+      font-size: 20px;
+    }
+
+    .contact-section a {
+      color: #0056b3;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .contact-section a:hover {
+      text-decoration: underline;
+    }
+
+    .dashboard-button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 16px;
+      color: white;
+      background-color: #0056b3;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .dashboard-button:hover {
+      background-color: #004080;
+    }
+    .spanner{
+      font-family: Pacifico;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo">ChoreUs</div>
+        <a href="index.html" class="dashtext">Dashboard</a>
+        <a href="activitiespage.html" class="activitytext">Activity</a>
+        <a href="invpage.html" class="inventorytext">Inventory</a>
+        <a href="mealpage.html" class="mealstext">Expense Tracker</a>
+        <a href="propage.html" class="profilestext">About Us</a>
+    </div>
+    <div class="dashboard-container">
+        <h1>Welcome to <span class="spanner">ChoreUs!</span></h1>
+        <p>Organize your tasks, track expenses, and manage your inventory effortlessly with ChoreUs.</p>
+    
+    
+        <div class="contact-section">
+          <p>Contact Us:</p>
+          <p>Email: <a href="mailto:support@choreus.com">support@choreus.com</a></p>
+          <p>Instagram: <a href="https://www.instagram.com/choreus_official" target="_blank">@choreus_official</a></p>
+        </div>
+      </div>
+</body>
+</html>
+
+
